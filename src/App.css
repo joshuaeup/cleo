@@ -9,7 +9,12 @@
   font-family: 'Kanit', sans-serif;
 }
 
-#main-container__title {
+/* #main-container__title {
+  z-index: 2;
+} */
+
+#main-container__title,
+#main-container__text {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -18,6 +23,15 @@
   margin: 0;
   font-weight: 600;
   font-size: 3rem;
+  text-shadow: 1px 1px 2px black, 0 0 25px rgb(32, 190, 221), 0 0 5px rgb(45, 173, 199);
+  z-index: 2;
+}
+
+#main-container__text {
+  top: 80%;
+  font-weight: 400;
+  font-size: 2rem;
+  text-align: center
 }
 
 .loop-structure {
@@ -29,6 +43,7 @@
   bottom: 0;
   right: 0;
   border-radius: 50%;
+  z-index: 1;
 }
 
 #loop-1 {
