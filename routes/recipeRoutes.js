@@ -4,9 +4,8 @@ const router = express.Router();
 const RecipeModel = require("../models/RecipeModel");
 
 router.get("/", async (req, res) => {
-    const recipe = await RecipeModel.find({});
-
     try {
+        const recipe = await RecipeModel.find({ name: req.query.name });
         res.send(recipe[0]);
     } catch (err) {
         res.status(500).send(err);
@@ -14,17 +13,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    // const recipe = new RecipeModel({
-    //     name: "pbj",
-    //     ingredients: ["Peanut butter", "Jelly", "Sandwich Bread"],
-    //     steps: [
-    //         "Pull out two slices of bread and lay side by side on the plate.",
-    //         "Spread the Peanut Butter Onto One Slice of Bread",
-    //         "Spread the Jelly Onto the other Slice of Bread",
-    //         "Combine the Two Slices",
-    //         "Cut the sandwich in Half"
-    //     ]
-    // });
+    const recipe = new RecipeModel(req.body);
+    console.log(req.body);
 
     try {
         await recipe.save();
