@@ -1,6 +1,8 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import Ingredients from "./components/ingredients/ingredients";
+import Steps from "./components/steps/steps";
 
 const App = () => {
     const [data, setData] = useState(undefined);
@@ -74,33 +76,6 @@ const App = () => {
     const onSubmitHandler = e => {
         e.preventDefault();
         console.log(`FINAL VALUE: ${mealInput.current.value}`);
-        function onSpeak(e) {
-            // Path to access value
-            const msg = e.results[0][0].transcript;
-            console.log(msg);
-
-            // // Call functions
-            // writeMessage(msg);
-            // checkNumber(msg);
-            // axios
-            //     .get("http://localhost:4000/recipe", {
-            //         params: {
-            //             name: mealInput.current.value
-            //         }
-            //     })
-            //     .then(async result => {
-            //         const recipes = result.data;
-            //         // if (recipes.name === mealInput.current.value) {
-            //         await setData(recipes);
-            //         console.log(recipes);
-            //         // } else {
-            //         //     console.log("No match");
-            //         // }
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     });
-        }
     };
 
     window.SpeechRecognition =
@@ -111,7 +86,6 @@ const App = () => {
     recognition.start();
 
     recognition.addEventListener("result", onSpeak);
-    // recognition.continuous = true;
     // Capture the input from the user
     function onSpeak(e) {
         // Path to access value
@@ -125,20 +99,12 @@ const App = () => {
             })
             .then(async result => {
                 const recipes = result.data;
-                // if (recipes.name === mealInput.current.value) {
                 await setData(recipes);
                 console.log(recipes);
-                // } else {
-                //     console.log("No match");
-                // }
             })
             .catch(err => {
                 console.log(err);
             });
-
-        // // Call functions
-        // writeMessage(msg);
-        // checkNumber(msg);
     }
 
     return (
@@ -155,28 +121,13 @@ const App = () => {
             {data ? (
                 <>
                     {count === -1 ? (
-                        <p id="main-container__text" onClick={increment}>
-                            Gather the following ingredients{" "}
-                            {data.ingredients.map((ingredient, index) => {
-                                return (
-                                    <span key={index}>
-                                        {ingredient}
-                                        {", "}
-                                    </span>
-                                );
-                            })}
-                        </p>
+                        <Ingredients data={data} increment={increment} />
                     ) : (
-                        <p id="main-container__text" onClick={increment}>
-                            {}
-                            {count - 1 <= data.ingredients.length ? (
-                                <span>
-                                    Step {count + 1}. {data.steps[count]}
-                                </span>
-                            ) : (
-                                <span>Recipe Complete</span>
-                            )}
-                        </p>
+                        <Steps
+                            data={data}
+                            increment={increment}
+                            count={count}
+                        />
                     )}
                 </>
             ) : (
