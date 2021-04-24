@@ -11,6 +11,7 @@ const App = () => {
 
     var synth = window.speechSynthesis;
     var voices = synth.getVoices();
+    const recipes = ["pbj", "chicken and broccoli stir-fry"];
 
     // useEffect(() => {
     //     axios
@@ -55,7 +56,7 @@ const App = () => {
         }
     };
 
-    const speakAudio = text => {
+    const speakAudio = (text) => {
         var utterThis = new SpeechSynthesisUtterance(text);
 
         utterThis.voice = voices[17];
@@ -73,7 +74,7 @@ const App = () => {
         console.log(mealInput.current.value);
     };
 
-    const onSubmitHandler = e => {
+    const onSubmitHandler = (e) => {
         e.preventDefault();
         console.log(`FINAL VALUE: ${mealInput.current.value}`);
     };
@@ -83,28 +84,38 @@ const App = () => {
 
     let recognition = new window.SpeechRecognition();
 
+    recognition.continuous = true;
+
     recognition.start();
 
     recognition.addEventListener("result", onSpeak);
+
     // Capture the input from the user
     function onSpeak(e) {
-        // Path to access value
-        const msg = e.results[0][0].transcript;
-        console.log(msg);
-        axios
-            .get("http://localhost:4000/recipe", {
-                params: {
-                    name: msg
-                }
-            })
-            .then(async result => {
-                const recipes = result.data;
-                await setData(recipes);
-                console.log(recipes);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        let count = e.results.length - 1;
+        let msg = e.results[count][0].transcript.toLowerCase().trim();
+
+        if (recipes.includes(msg)) {
+            axios
+                .get("http://localhost:4000/recipe", {
+                    params: {
+                        name: msg,
+                    },
+                })
+                .then(async (result) => {
+                    const recipes = result.data;
+                    await setData(recipes);
+                    console.log(recipes);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else if (msg === "next") {
+            increment();
+        } else {
+            console.log(msg);
+            console.log("I don't recognize this command");
+        }
     }
 
     return (
