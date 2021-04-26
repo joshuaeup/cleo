@@ -1,7 +1,7 @@
-const steps = props => {
+const steps = (props) => {
     return (
         <>
-            <p id="main-container__text" onClick={props.increment}>
+            <p id="main-container__text">
                 {}
                 {props.count - 1 <= props.data.ingredients.length ? (
                     <span>

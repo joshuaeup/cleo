@@ -1,94 +1,49 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Ingredients from "./components/ingredients/ingredients";
 import Steps from "./components/steps/steps";
 
 const App = () => {
+    // State
     const [data, setData] = useState(undefined);
     let [count, setCount] = useState(-1);
-    let mealInput = React.createRef();
 
-    var synth = window.speechSynthesis;
-    var voices = synth.getVoices();
+    // Variables
+    const triggerWord = "thank you";
+    var cleo = window.speechSynthesis;
+    var voices = cleo.getVoices();
     const recipes = ["pbj", "chicken and broccoli stir-fry"];
 
-    // useEffect(() => {
-    //     axios
-    //         .get("http://localhost:4000/recipe")
-    //         .then(result => {
-    //             const recipes = result.data;
-    //             setData(recipes);
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         });
-    // });
+    // Initializers
+    window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    // useEffect(() => {
-    //     axios
-    //         .get("http://localhost:4000/recipe")
-    //         .then(result => {
-    //             const recipes = result.data;
-    //             if (recipes.name === "pbj") {
-    //                 setData(recipes);
-    //             } else {
-    //                 console.log("No match");
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         });
-    // });
+    let listenToUser = new window.SpeechRecognition();
 
-    const viewContents = () => {
-        console.log(count);
-        console.log(data);
-    };
+    listenToUser.continuous = true;
+
+    listenToUser.start();
+
+    listenToUser.addEventListener("result", onSpeak);
 
     const increment = () => {
         if (count < data.steps.length - 1) {
             setCount(count + 1);
-            speakAudio(`Step ${count + 2}. ${data.steps[count + 1]}`);
+            say(`Step ${count + 2}. ${data.steps[count + 1]}`);
         } else {
             setCount(data.steps.length);
-            speakAudio(`Recipe Complete`);
+            say(`Recipe Complete`);
         }
     };
 
-    const speakAudio = (text) => {
-        var utterThis = new SpeechSynthesisUtterance(text);
+    const say = (text) => {
+        const textToSpeak = new SpeechSynthesisUtterance(text);
 
-        utterThis.voice = voices[17];
-        synth.resume();
-        synth.speak(utterThis);
+        cleo.speak(textToSpeak);
 
-        utterThis.onend = () => {
-            console.log("Utterance has finished being spoken");
-            synth.pause();
-            synth.cancel();
-        };
+        textToSpeak.voice = voices[17];
     };
-
-    const onChangeHandler = () => {
-        console.log(mealInput.current.value);
-    };
-
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        console.log(`FINAL VALUE: ${mealInput.current.value}`);
-    };
-
-    window.SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    let recognition = new window.SpeechRecognition();
-
-    recognition.continuous = true;
-
-    recognition.start();
-
-    recognition.addEventListener("result", onSpeak);
 
     // Capture the input from the user
     function onSpeak(e) {
@@ -106,12 +61,25 @@ const App = () => {
                     const recipes = result.data;
                     await setData(recipes);
                     console.log(recipes);
+                    say(
+                        "Wonderful first you will need to grab these ingredients?"
+                    );
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-        } else if (msg === "next") {
+        } else if (msg === `${triggerWord} next`) {
             increment();
+        } else if (msg === `hello cleo` || msg === `hello clio`) {
+            say("Hello Josh, How can I help you today?");
+        } else if (msg === `i need help cooking`) {
+            say(
+                "I would be happy to help you cook. what would you like to make?"
+            );
+        } else if (msg === `abort cleo` || msg === `abort clio`) {
+            say("Understood, reversing last command and aborting now");
+            setData(undefined);
+            setCount(-1);
         } else {
             console.log(msg);
             console.log("I don't recognize this command");
@@ -120,25 +88,13 @@ const App = () => {
 
     return (
         <div id="main-container">
-            <h1 id="main-container__title" onClick={viewContents}>
-                C.L.E.O
-            </h1>
-            <input
-                placeholder="Enter meal here"
-                ref={mealInput}
-                onChange={onChangeHandler}
-            />
-            <button onClick={onSubmitHandler}>Submit</button>
+            <h1 id="main-container__title">C.L.E.O</h1>
             {data ? (
                 <>
                     {count === -1 ? (
-                        <Ingredients data={data} increment={increment} />
+                        <Ingredients data={data} />
                     ) : (
-                        <Steps
-                            data={data}
-                            increment={increment}
-                            count={count}
-                        />
+                        <Steps data={data} count={count} />
                     )}
                 </>
             ) : (
