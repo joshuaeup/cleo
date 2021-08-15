@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700;800&display=swap");
 
 #main-container {
-  position: relative;
-  overflow: hidden;
-  background: #132E43;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Kanit', sans-serif;
+    position: relative;
+    overflow: hidden;
+    background: #132e43;
+    height: 100vh;
+    width: 100vw;
+    font-family: "Kanit", sans-serif;
 }
 
 /* #main-container__title {
@@ -15,88 +15,98 @@
 
 #main-container__title,
 #main-container__text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  margin: 0;
-  font-weight: 600;
-  font-size: 3rem;
-  text-shadow: 1px 1px 2px black, 0 0 25px rgb(32, 190, 221), 0 0 5px rgb(45, 173, 199);
-  z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    margin: 0;
+    font-weight: 600;
+    font-size: 3rem;
+    text-shadow: 1px 1px 2px black, 0 0 25px rgb(32, 190, 221),
+        0 0 5px rgb(45, 173, 199);
+    z-index: 2;
 }
 
 #main-container__text {
-  top: 80%;
-  font-weight: 400;
-  font-size: 2rem;
-  text-align: center
+    top: 80%;
+    font-weight: 400;
+    font-size: 2rem;
+    text-align: center;
 }
 
 #main-container__title,
 #main-container__text:hover {
-  cursor: pointer;
+    cursor: pointer;
+}
+
+#recipe_img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 40%;
+    width: auto;
+    z-index: 3;
+    border-radius: 10%;
 }
 
 .loop-structure {
-  position: absolute;
-  overflow: auto;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  border-radius: 50%;
-  z-index: 1;
+    position: absolute;
+    overflow: auto;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+    z-index: 1;
 }
 
 #loop-1 {
-  height: 800px;
-  width: 800px;
-  border-top: #53A9BA 2px solid;
-  animation: rotateRight 2s infinite linear;
+    height: 800px;
+    width: 800px;
+    border-top: #53a9ba 2px solid;
+    animation: rotateRight 2s infinite linear;
 }
 
 #loop-2 {
-  height: 600px;
-  width: 600px;
-  border-right: #53A9BA 2px solid;
-  animation: rotateRight 2s infinite linear;
+    height: 600px;
+    width: 600px;
+    border-right: #53a9ba 2px solid;
+    animation: rotateRight 2s infinite linear;
 }
 
 #loop-3 {
-  height: 400px;
-  width: 400px;
-  border-left: #53A9BA 2px solid;
-  animation: rotateLeft 2s infinite linear;
+    height: 400px;
+    width: 400px;
+    border-left: #53a9ba 2px solid;
+    animation: rotateLeft 2s infinite linear;
 }
 
 #loop-4 {
-  height: 200px;
-  width: 200px;
-  border-top: #53A9BA 2px solid;
-  animation: rotateLeft 2s infinite linear;
+    height: 200px;
+    width: 200px;
+    border-top: #53a9ba 2px solid;
+    animation: rotateLeft 2s infinite linear;
 }
 
-
-
 @keyframes rotateRight {
-  0% {
-    transform: rotate(0deg)
-  }
+    0% {
+        transform: rotate(0deg);
+    }
 
-  100% {
-    transform: rotate(359deg)
-  }
+    100% {
+        transform: rotate(359deg);
+    }
 }
 
 @keyframes rotateLeft {
-  0% {
-    transform: rotate(359deg)
-  }
+    0% {
+        transform: rotate(359deg);
+    }
 
-  100% {
-    transform: rotate(0deg)
-  }
+    100% {
+        transform: rotate(0deg);
+    }
 }
