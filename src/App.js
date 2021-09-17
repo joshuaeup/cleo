@@ -13,7 +13,7 @@ const App = () => {
     const triggerWord = "thank you";
     var cleo = window.speechSynthesis;
     // var voices = cleo.getVoices();
-    const recipes = ["pbj", "chicken and broccoli stir-fry"];
+    const recipes = ["pbj", "chicken and broccoli stir-fry", "meatball sub"];
 
     // Command Words
     const greetings = [
@@ -135,6 +135,7 @@ const App = () => {
 
     return (
         <div id="main-container">
+            <button>Listen</button>
             {count === -1 ? (
                 <>
                     <h1 id="main-container__title">C.L.E.O</h1>
@@ -168,7 +169,11 @@ const App = () => {
 
             <div className="loop-structure" id="loop-1"></div>
             <div className="loop-structure" id="loop-2"></div>
-            <div className="loop-structure" id="loop-3"></div>
+            <div
+                className="loop-structure"
+                id="loop-3"
+                onClick={() => listenToUser.start()}
+            ></div>
         </div>
     );
 };
