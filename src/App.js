@@ -12,7 +12,6 @@ const App = () => {
     // Variables
     const triggerWord = "thank you";
     var cleo = window.speechSynthesis;
-    // var voices = cleo.getVoices();
     const recipes = ["pbj", "chicken and broccoli stir-fry", "meatball sub"];
 
     // Command Words
