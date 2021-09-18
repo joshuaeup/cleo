@@ -95,7 +95,7 @@ const App = () => {
                     await setData(recipes);
                     console.log(recipes);
                     say(
-                        "Wonderful first you will need to grab these ingredients?"
+                        "Wonderful first you will need to grab these ingredients?",
                     );
                 })
                 .catch((err) => {
@@ -109,7 +109,7 @@ const App = () => {
             say("Hello Josh, How can I help you today?");
         } else if (msg === `i need help cooking`) {
             say(
-                "I would be happy to help you cook. What would you like to make?"
+                "I would be happy to help you cook. What would you like to make?",
             );
         } else if (aborts.includes(msg)) {
             voiceSelection = defaultVoice;
