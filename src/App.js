@@ -6,6 +6,10 @@ import Steps from "./components/steps/steps";
 import { switchVoice, setVoice, getLastWord, say } from "./utilities/utilities";
 import { recipes, greetings, aborts } from "./utilities/launchWords";
 
+// Libraries
+const moment = require("moment");
+
+// Main Method
 const App = () => {
     // State
     const [data, setData] = useState(undefined);
@@ -68,6 +72,10 @@ const App = () => {
             say(
                 "I would be happy to help you cook. What would you like to make?"
             );
+        } else if (msg === "what time is it") {
+            say(`The current time is ${moment().format("LT")}`);
+        } else if (msg === "what's the date") {
+            say(`The date is ${moment().format("MMMM Do YYYY")}`);
         } else if (msg === "thank you cleo") {
             say("You're very welcome Josh");
         } else if (aborts.includes(msg)) {
