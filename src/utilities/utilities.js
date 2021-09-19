@@ -1,4 +1,9 @@
-// Switch Voice Variables
+// 7 - Male American voice
+// 10 - Female Irish voice
+// 17 - Female Australian voice
+// 28 - Female Dutch voice
+// 49 - Female American voice
+// 50 - Female British voice
 const voiceOptions = [7, 10, 17, 28, 49, 50];
 const defaultVoice = 50;
 let voiceSelection = defaultVoice;
@@ -32,12 +37,6 @@ const say = (text) => {
 
     var voices = synth.getVoices();
 
-    // 7 - Male American voice
-    // 10 - Female Irish voice
-    // 17 - Female Australian voice
-    // 28 - Female Dutch voice
-    // 49 - Female American voice
-    // 50 - Female British voice
     textToSpeak.voice = voices[voiceSelection];
 
     cleo.speak(textToSpeak);
