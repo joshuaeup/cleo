@@ -3,34 +3,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import Ingredients from "./components/ingredients/ingredients";
 import Steps from "./components/steps/steps";
+import { switchVoice, setVoice, getLastWord, say } from "./utilities/utilities";
+import { recipes, greetings, aborts } from "./utilities/launchWords";
 
 const App = () => {
     // State
     const [data, setData] = useState(undefined);
     let [count, setCount] = useState(-1);
-
-    // Variables
-    const triggerWord = "thank you";
-    var cleo = window.speechSynthesis;
-    // var voices = cleo.getVoices();
-    const recipes = ["pbj", "chicken and broccoli stir-fry", "meatball sub"];
-
-    // Command Words
-    const greetings = [
-        "hello cleo",
-        "hello clio",
-        "hi cleo",
-        "hi clio",
-        "he cleo",
-        "he clio",
-        "hey cleo",
-        "hey clio",
-    ];
-    const aborts = ["abort cleo", "abort clio"];
-
-    const voiceOptions = [7, 10, 17, 28, 49, 50];
-    const defaultVoice = 50;
-    let voiceSelection = defaultVoice;
 
     // Initializers
     window.SpeechRecognition =
@@ -44,8 +23,6 @@ const App = () => {
 
     listenToUser.addEventListener("result", onSpeak);
 
-    var synth = window.speechSynthesis;
-
     const increment = () => {
         if (count < data.steps.length - 1) {
             setCount(count + 1);
@@ -57,27 +34,6 @@ const App = () => {
 
         console.log("Count = " + count);
     };
-
-    const say = (text) => {
-        const textToSpeak = new SpeechSynthesisUtterance(text);
-
-        var voices = synth.getVoices();
-
-        // 7 - Male American voice
-        // 10 - Female Irish voice
-        // 17 - Female Australian voice
-        // 28 - Female Dutch voice
-        // 49 - Female American voice
-        // 50 - Female British voice
-        textToSpeak.voice = voices[voiceSelection];
-
-        cleo.speak(textToSpeak);
-    };
-
-    function getLastWord(words) {
-        var n = words.split(" ");
-        return n[n.length - 1];
-    }
 
     // Capture the input from the user
     function onSpeak(e) {
@@ -104,7 +60,7 @@ const App = () => {
                 });
         } else if (msg.includes("cleo switch your voice selection to")) {
             switchVoice(getLastWord(msg));
-        } else if (msg === `${triggerWord} next`) {
+        } else if (msg === `thank you next`) {
             increment();
         } else if (greetings.includes(msg)) {
             say("Hello Josh, How can I help you today?");
@@ -112,9 +68,10 @@ const App = () => {
             say(
                 "I would be happy to help you cook. What would you like to make?"
             );
+        } else if (msg === "thank you cleo") {
+            say("You're very welcome Josh");
         } else if (aborts.includes(msg)) {
-            voiceSelection = defaultVoice;
-            say("Understood, reversing last command and aborting now");
+            setVoice();
             setData(undefined);
             setCount(-1);
         } else {
@@ -123,19 +80,8 @@ const App = () => {
         }
     }
 
-    function switchVoice(num) {
-        console.log(num);
-        if (voiceOptions.includes(Number(num))) {
-            voiceSelection = num;
-            say("How does this sound Josh?");
-            return;
-        }
-        say("Sorry that is not a valid voice selection");
-    }
-
     return (
         <div id="main-container">
-            <button>Listen</button>
             {count === -1 ? (
                 <>
                     <h1 id="main-container__title">C.L.E.O</h1>
