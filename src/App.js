@@ -4,7 +4,16 @@ import axios from "axios";
 import Ingredients from "./components/ingredients/ingredients";
 import Steps from "./components/steps/steps";
 import { switchVoice, setVoice, getLastWord, say } from "./utilities/utilities";
-import { recipes, greetings, aborts } from "./utilities/launchWords";
+import {
+    recipes,
+    recipeRequest,
+    greetings,
+    aborts,
+    time,
+    date,
+    gratitude,
+    cookingRequest,
+} from "./utilities/launchWords";
 
 // Libraries
 const moment = require("moment");
@@ -62,21 +71,25 @@ const App = () => {
                 .catch((err) => {
                     console.log(err);
                 });
+        } else if (recipeRequest.includes(msg)) {
+            say(
+                `I currently know ${recipes.length} recipes including ${recipes}. Would you like to make any of these?`
+            );
         } else if (msg.includes("cleo switch your voice selection to")) {
             switchVoice(getLastWord(msg));
         } else if (msg === `thank you next`) {
             increment();
         } else if (greetings.includes(msg)) {
             say("Hello Josh, How can I help you today?");
-        } else if (msg === `i need help cooking`) {
+        } else if (cookingRequest.includes(msg)) {
             say(
                 "I would be happy to help you cook. What would you like to make?"
             );
-        } else if (msg === "what time is it") {
+        } else if (time.includes(msg)) {
             say(`The current time is ${moment().format("LT")}`);
-        } else if (msg === "what's the date") {
+        } else if (date.includes(msg)) {
             say(`The date is ${moment().format("MMMM Do YYYY")}`);
-        } else if (msg === "thank you cleo") {
+        } else if (gratitude.includes(msg)) {
             say("You're very welcome Josh");
         } else if (aborts.includes(msg)) {
             setVoice();
