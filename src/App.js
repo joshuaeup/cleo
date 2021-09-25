@@ -23,6 +23,11 @@ const App = () => {
     // State
     const [data, setData] = useState(undefined);
     let [count, setCount] = useState(-1);
+    const [isSpeaking, setIsSpeaking] = useState("false");
+
+    setTimeout(() => {
+        setIsSpeaking(localStorage.getItem("isSpeaking"));
+    }, 2000);
 
     // Initializers
     window.SpeechRecognition =
@@ -100,7 +105,7 @@ const App = () => {
             console.log("I don't recognize this command");
         }
     }
-
+    console.log("In Render " + isSpeaking);
     return (
         <div id="main-container">
             {count === -1 ? (
@@ -134,7 +139,12 @@ const App = () => {
                 </div>
             )}
 
-            <div className="loop-structure" id="loop-1"></div>
+            <div
+                className={`loop-structure ${
+                    isSpeaking === "true" ? "speaking" : ""
+                }`}
+                id="loop-1"
+            ></div>
             <div className="loop-structure" id="loop-2"></div>
             <div
                 className="loop-structure"

@@ -31,6 +31,7 @@ function getLastWord(words) {
 //Say Variables
 var synth = window.speechSynthesis;
 var cleo = window.speechSynthesis;
+localStorage.setItem("isSpeaking", "false");
 
 const say = (text) => {
     const textToSpeak = new SpeechSynthesisUtterance(text);
@@ -40,6 +41,21 @@ const say = (text) => {
     textToSpeak.voice = voices[voiceSelection];
 
     cleo.speak(textToSpeak);
+
+    console.log(cleo);
+
+    cleoIsSpeaking();
+};
+
+const cleoIsSpeaking = () => {
+    setInterval(() => {
+        if (cleo.speaking === true) {
+            localStorage.setItem("isSpeaking", "true");
+        } else {
+            localStorage.setItem("isSpeaking", "false");
+        }
+        console.log(localStorage.getItem("isSpeaking"));
+    }, 2000);
 };
 
 export { switchVoice, setVoice, getLastWord, say };

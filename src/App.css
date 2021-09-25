@@ -106,3 +106,7 @@
         transform: rotate(0deg);
     }
 }
+
+.speaking {
+    border-color: red;
+}
