@@ -54,8 +54,7 @@ const cleoIsSpeaking = () => {
         } else {
             localStorage.setItem("isSpeaking", "false");
         }
-        console.log(localStorage.getItem("isSpeaking"));
-    }, 2000);
+    }, 200);
 };
 
 export { switchVoice, setVoice, getLastWord, say };

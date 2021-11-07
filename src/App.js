@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Ingredients from "./components/ingredients/ingredients";
 import Steps from "./components/steps/steps";
@@ -23,11 +23,7 @@ const App = () => {
     // State
     const [data, setData] = useState(undefined);
     let [count, setCount] = useState(-1);
-    const [isSpeaking, setIsSpeaking] = useState("false");
-
-    setTimeout(() => {
-        setIsSpeaking(localStorage.getItem("isSpeaking"));
-    }, 2000);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
     // Initializers
     window.SpeechRecognition =
@@ -105,12 +101,29 @@ const App = () => {
             console.log("I don't recognize this command");
         }
     }
-    console.log("In Render " + isSpeaking);
+
+    useEffect(() => {
+        setInterval(() => {
+            // Update state when cleo is speaking
+            if (isSpeaking !== JSON.parse(localStorage.getItem("isSpeaking"))) {
+                setIsSpeaking(JSON.parse(localStorage.getItem("isSpeaking")));
+            }
+        }, 200);
+    });
     return (
-        <div id="main-container">
+        <div
+            id="main-container"
+            // style={{ background: isSpeaking ? "red" : "blue" }}
+        >
             {count === -1 ? (
                 <>
-                    <h1 id="main-container__title">C.L.E.O</h1>
+                    <h1
+                        class={`main-container__title ${
+                            isSpeaking ? "pulseTitle" : ""
+                        }`}
+                    >
+                        C.L.E.O
+                    </h1>
                 </>
             ) : (
                 <>
@@ -121,7 +134,13 @@ const App = () => {
                             src={data?.images[count]}
                         />
                     ) : (
-                        <h1 id="main-container__title">C.L.E.O</h1>
+                        <h1
+                            class={`main-container__title ${
+                                isSpeaking ? "pulseTitle" : ""
+                            }`}
+                        >
+                            C.L.E.O
+                        </h1>
                     )}
                 </>
             )}
@@ -140,15 +159,17 @@ const App = () => {
             )}
 
             <div
-                className={`loop-structure ${
-                    isSpeaking === "true" ? "speaking" : ""
+                className={`loop-structure loop-1  ${
+                    isSpeaking ? "pulseLoop" : ""
                 }`}
-                id="loop-1"
             ></div>
-            <div className="loop-structure" id="loop-2"></div>
             <div
-                className="loop-structure"
-                id="loop-3"
+                className={`loop-structure loop-2 ${
+                    isSpeaking ? "pulseLoop" : ""
+                }`}
+            ></div>
+            <div
+                className={`loop-structure loop-3 `}
                 onClick={() => listenToUser.start()}
             ></div>
         </div>
