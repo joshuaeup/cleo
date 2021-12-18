@@ -49,8 +49,6 @@ const App = () => {
             setCount(data.steps.length);
             say(`Recipe Complete`);
         }
-
-        console.log("Count = " + count);
     };
 
     // Capture the input from the user
