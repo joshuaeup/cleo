@@ -57,6 +57,29 @@ const recipeRequest = [
 
 const aborts = ["abort cleo", "abort clio"];
 
+const openModal = [
+    "show modal",
+    "show text",
+    "show transcript",
+    "text show",
+    "text open",
+    "open modal",
+    "open text",
+    "open transcript",
+];
+
+const closeModal = [
+    "hide modal",
+    "hide text",
+    "hide transcript",
+    "text hide",
+    "text close",
+    "close modal",
+    "close text",
+    "close transcript",
+    "dismiss",
+];
+
 export {
     recipes,
     recipeRequest,
@@ -68,4 +91,6 @@ export {
     date,
     gratitude,
     cookingRequest,
+    openModal,
+    closeModal,
 };
