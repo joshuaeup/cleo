@@ -1,4 +1,8 @@
-const recipes = ["pbj", "chicken and broccoli stir-fry", "meatball sub"];
+import requestFromDb from "./recipeRequests";
+
+requestFromDb();
+
+const recipes = localStorage.getItem("recipeNames").split(",");
 
 const greetings = [
     "hello cleo",
@@ -11,7 +15,7 @@ const greetings = [
 
 const launchGreeting = ["good morning", "goodmorning"];
 
-const statusUpdate = ["status update"];
+const statusUpdate = ["status update", "status report"];
 
 const time = [
     "what time is it",

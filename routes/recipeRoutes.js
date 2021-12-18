@@ -12,6 +12,15 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/all", async (req, res) => {
+    try {
+        const recipe = await RecipeModel.find({});
+        res.send(recipe);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 router.post("/", async (req, res) => {
     const recipe = new RecipeModel(req.body);
     console.log(req.body);
