@@ -7,13 +7,17 @@ import { switchVoice, setVoice, getLastWord, say } from "./utilities/utilities";
 import {
     recipes,
     recipeRequest,
+    statusUpdate,
     greetings,
+    launchGreeting,
     aborts,
     time,
     date,
     gratitude,
     cookingRequest,
 } from "./utilities/launchWords";
+
+const admin = "Josh";
 
 // Libraries
 const moment = require("moment");
@@ -54,7 +58,7 @@ const App = () => {
         let count = e.results.length - 1;
         let msg = e.results[count][0].transcript.toLowerCase().trim();
 
-        if (recipes.includes(msg)) {
+        if (mapOverSentences(recipes, msg)) {
             axios
                 .get("http://localhost:4000/recipe", {
                     params: {
@@ -72,7 +76,15 @@ const App = () => {
                 .catch((err) => {
                     console.log(err);
                 });
-        } else if (recipeRequest.includes(msg)) {
+        } else if (mapOverSentences(statusUpdate, msg)) {
+            say(
+                `${getPhrase([
+                    "Of course",
+                    "My pleasure",
+                    "No problem",
+                ])}! Today's date is ${getDate()} and the current time is ${getTime()}, you have no new alerts and shield health is at 100%`
+            );
+        } else if (mapOverSentences(recipeRequest, msg)) {
             say(
                 `I currently know ${recipes.length} recipes including ${recipes}. Would you like to make any of these?`
             );
@@ -80,19 +92,33 @@ const App = () => {
             switchVoice(getLastWord(msg));
         } else if (msg === `thank you next`) {
             increment();
-        } else if (greetings.includes(msg)) {
-            say("Hello Josh, How can I help you today?");
-        } else if (cookingRequest.includes(msg)) {
+        } else if (mapOverSentences(greetings, msg)) {
+            say(
+                `${getPhrase([
+                    "Hello",
+                    "Hi",
+                    "Hey",
+                ])} ${admin}, How can I help you today?`
+            );
+        } else if (mapOverSentences(launchGreeting, msg)) {
+            say(`Good Morning ${admin}`);
+        } else if (mapOverSentences(cookingRequest, msg)) {
             say(
                 "I would be happy to help you cook. What would you like to make?"
             );
-        } else if (time.includes(msg)) {
-            say(`The current time is ${moment().format("LT")}`);
-        } else if (date.includes(msg)) {
-            say(`The date is ${moment().format("MMMM Do YYYY")}`);
-        } else if (gratitude.includes(msg)) {
-            say("You're very welcome Josh");
-        } else if (aborts.includes(msg)) {
+        } else if (mapOverSentences(time, msg)) {
+            say(`The current time is ${getTime()}`);
+        } else if (mapOverSentences(date, msg)) {
+            say(`The date is ${getDate()}`);
+        } else if (mapOverSentences(gratitude, msg)) {
+            say(
+                `${getPhrase([
+                    "You're very welcome",
+                    "It's my pleasure",
+                    "No problem",
+                ])} ${admin}`
+            );
+        } else if (mapOverSentences(aborts, msg)) {
             setVoice();
             setData(undefined);
             setCount(-1);
@@ -110,15 +136,30 @@ const App = () => {
             }
         }, 200);
     });
+
+    const getPhrase = (phrases) => {
+        return phrases[Math.floor(Math.random() * phrases.length)];
+    };
+
+    const mapOverSentences = (sentences, msg) => {
+        return (
+            sentences.filter((sentence) => msg.includes(sentence)).length > 0
+        );
+    };
+
+    const getTime = () => {
+        return moment().format("LT");
+    };
+
+    const getDate = () => {
+        return moment().format("MMMM Do YYYY");
+    };
     return (
-        <div
-            id="main-container"
-            // style={{ background: isSpeaking ? "red" : "blue" }}
-        >
+        <div id="main-container">
             {count === -1 ? (
                 <>
                     <h1
-                        class={`main-container__title ${
+                        className={`main-container__title ${
                             isSpeaking ? "pulseTitle" : ""
                         }`}
                     >
@@ -135,7 +176,7 @@ const App = () => {
                         />
                     ) : (
                         <h1
-                            class={`main-container__title ${
+                            className={`main-container__title ${
                                 isSpeaking ? "pulseTitle" : ""
                             }`}
                         >
@@ -154,7 +195,7 @@ const App = () => {
                 </>
             ) : (
                 <div>
-                    <p id="main-container__text">Hello Josh</p>
+                    <p id="main-container__text">{`Hello ${admin}`}</p>
                 </div>
             )}
 

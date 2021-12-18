@@ -9,6 +9,10 @@ const greetings = [
     "hey clio",
 ];
 
+const launchGreeting = ["good morning", "goodmorning"];
+
+const statusUpdate = ["status update"];
+
 const time = [
     "what time is it",
     "what's the time",
@@ -52,7 +56,9 @@ const aborts = ["abort cleo", "abort clio"];
 export {
     recipes,
     recipeRequest,
+    statusUpdate,
     greetings,
+    launchGreeting,
     aborts,
     time,
     date,
