@@ -80,6 +80,8 @@ const closeModal = [
     "dismiss",
 ];
 
+const repeat = ["repeat", "say that again"];
+
 export {
     recipes,
     recipeRequest,
@@ -93,4 +95,5 @@ export {
     cookingRequest,
     openModal,
     closeModal,
+    repeat,
 };

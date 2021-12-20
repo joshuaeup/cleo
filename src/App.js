@@ -18,6 +18,7 @@ import {
     cookingRequest,
     openModal,
     closeModal,
+    repeat,
 } from "./utilities/launchWords";
 
 const admin = "Josh";
@@ -50,11 +51,9 @@ const App = () => {
         if (count < data.steps.length - 1) {
             setCount(count + 1);
             setResponse(`Step ${count + 2}. ${data.steps[count + 1]}`);
-            say(`Step ${count + 2}. ${data.steps[count + 1]}`);
         } else {
             setCount(data.steps.length);
             setResponse(`Recipe Complete`);
-            say(`Recipe Complete`);
         }
     };
 
@@ -64,10 +63,11 @@ const App = () => {
         let msg = e.results[count][0].transcript.toLowerCase().trim();
 
         if (mapOverSentences(recipes, msg)) {
+            const recipe = recipes.filter((sentence) => msg.includes(sentence));
             axios
                 .get("http://localhost:4000/recipe", {
                     params: {
-                        name: msg,
+                        name: String(recipe[recipe.length - 1]),
                     },
                 })
                 .then(async (result) => {
@@ -82,9 +82,6 @@ const App = () => {
                             ingredients
                         ).replace(/,/g, ", ")} `
                     );
-                    say(
-                        "Wonderful first you will need to grab these ingredients"
-                    );
                 })
                 .catch((err) => {
                     console.log(err);
@@ -97,21 +94,11 @@ const App = () => {
                     "No problem",
                 ])}! Today's date is ${getDate()} and the current time is ${getTime()}, you have no new alerts and shield health is at 100%`
             );
-            say(
-                `${getPhrase([
-                    "Of course",
-                    "My pleasure",
-                    "No problem",
-                ])}! Today's date is ${getDate()} and the current time is ${getTime()}, you have no new alerts and shield health is at 100%`
-            );
         } else if (mapOverSentences(recipeRequest, msg)) {
             setResponse(
                 `I currently know ${recipes.length} recipes including ${String(
                     recipes
                 ).replace(/,/g, ", ")}. Would you like to make any of these?`
-            );
-            say(
-                `I currently know ${recipes.length} recipes including ${recipes}. Would you like to make any of these?`
             );
         } else if (msg.includes("cleo switch your voice selection to")) {
             switchVoice(getLastWord(msg));
@@ -125,38 +112,18 @@ const App = () => {
                     "Hey",
                 ])} ${admin}, How can I help you today?`
             );
-            say(
-                `${getPhrase([
-                    "Hello",
-                    "Hi",
-                    "Hey",
-                ])} ${admin}, How can I help you today?`
-            );
         } else if (mapOverSentences(launchGreeting, msg)) {
             setResponse(`Good Morning ${admin}`);
-            say(`Good Morning ${admin}`);
         } else if (mapOverSentences(cookingRequest, msg)) {
             setResponse(
                 "I would be happy to help you cook. What would you like to make?"
             );
-            say(
-                "I would be happy to help you cook. What would you like to make?"
-            );
         } else if (mapOverSentences(time, msg)) {
             setResponse(`The current time is ${getTime()}`);
-            say(`The current time is ${getTime()}`);
         } else if (mapOverSentences(date, msg)) {
             setResponse(`The date is ${getDate()}`);
-            say(`The date is ${getDate()}`);
         } else if (mapOverSentences(gratitude, msg)) {
             setResponse(
-                `${getPhrase([
-                    "You're very welcome",
-                    "It's my pleasure",
-                    "No problem",
-                ])} ${admin}`
-            );
-            say(
                 `${getPhrase([
                     "You're very welcome",
                     "It's my pleasure",
@@ -172,6 +139,8 @@ const App = () => {
             setModalOpen(true);
         } else if (mapOverSentences(closeModal, msg)) {
             setModalOpen(false);
+        } else if (mapOverSentences(repeat, msg)) {
+            say(`Sure thing, I said ${response}`);
         } else {
             console.log(msg);
             console.log("I don't recognize this command");
@@ -186,6 +155,10 @@ const App = () => {
             }
         }, 200);
     });
+
+    useEffect(() => {
+        say(response);
+    }, [response]);
 
     const getPhrase = (phrases) => {
         return phrases[Math.floor(Math.random() * phrases.length)];
