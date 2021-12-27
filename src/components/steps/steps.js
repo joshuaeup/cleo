@@ -2,8 +2,7 @@ const steps = (props) => {
     return (
         <>
             <p id="main-container__text">
-                {}
-                {props.count - 1 <= props.data.ingredients.length ? (
+                {props.count < props.data.steps.length ? (
                     <span>
                         Step {props.count + 1}. {props.data.steps[props.count]}
                     </span>
