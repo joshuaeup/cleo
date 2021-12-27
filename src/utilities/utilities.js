@@ -33,14 +33,29 @@ var synth = window.speechSynthesis;
 var cleo = window.speechSynthesis;
 localStorage.setItem("isSpeaking", "false");
 
+function chunkString(str = 0, length) {
+    if (str.length > 0) {
+        return str.match(new RegExp(".{1," + length + "}", "g"));
+    }
+
+    return [];
+}
+
 const say = (text) => {
-    const textToSpeak = new SpeechSynthesisUtterance(text);
+    const chunkedText = chunkString(text, 150);
 
     var voices = synth.getVoices();
 
-    textToSpeak.voice = voices[voiceSelection];
+    let textToSpeak = [];
 
-    cleo.speak(textToSpeak);
+    chunkedText.forEach((text) => {
+        textToSpeak.push(new SpeechSynthesisUtterance(text));
+    });
+
+    textToSpeak.forEach((text) => {
+        text.voice = voices[voiceSelection];
+        cleo.speak(text);
+    });
 
     console.log(cleo);
 
