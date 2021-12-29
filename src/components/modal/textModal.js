@@ -1,10 +1,14 @@
-const modal = (props) => {
+const textModal = (props) => {
     return (
         <>
-            <div className={`overlay ${props.open ? "open" : ""}`}>
+            <div
+                className={`overlay-from-left ${
+                    props.open ? "open-from-left" : ""
+                }`}
+            >
                 <div className="home-grid-container">
                     <div
-                        className={`home-grid-container__title ${
+                        className={`home-grid-container__body ${
                             props.open ? "display" : ""
                         }`}
                     >
@@ -30,4 +34,4 @@ const modal = (props) => {
     );
 };
 
-export default modal;
+export default textModal;

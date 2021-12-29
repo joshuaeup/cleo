@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 // import Ingredients from "./components/ingredients/ingredients";
 // import Steps from "./components/steps/steps";
-import Modal from "./components/modal/modal";
+import TextModal from "./components/modal/textModal";
+import CreateRecipeModal from "./components/modal/createRecipeModal";
+
 import { switchVoice, setVoice, getLastWord, say } from "./utilities/utilities";
 import {
     recipes,
@@ -16,8 +18,10 @@ import {
     date,
     gratitude,
     cookingRequest,
-    openModal,
-    closeModal,
+    openTextModal,
+    closeTextModal,
+    openCreateRecipeModal,
+    closeCreateRecipeModal,
     repeat,
 } from "./utilities/launchWords";
 
@@ -33,7 +37,8 @@ const App = () => {
     let [count, setCount] = useState(-1);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [response, setResponse] = useState("");
-    const [modalOpen, setModalOpen] = useState(false);
+    const [textModal, setTextModal] = useState(false);
+    const [createRecipeModal, setCreateRecipeModal] = useState(true);
 
     // Initializers
     window.SpeechRecognition =
@@ -135,10 +140,14 @@ const App = () => {
             setResponse(undefined);
             setData(undefined);
             setCount(-1);
-        } else if (mapOverSentences(openModal, msg)) {
-            setModalOpen(true);
-        } else if (mapOverSentences(closeModal, msg)) {
-            setModalOpen(false);
+            setTextModal(false);
+            setCreateRecipeModal(false);
+        } else if (mapOverSentences(openTextModal, msg)) {
+            setTextModal(true);
+        } else if (mapOverSentences(closeTextModal, msg)) {
+            setTextModal(false);
+        } else if (mapOverSentences(openCreateRecipeModal, msg)) {
+            setCreateRecipeModal(true);
         } else if (mapOverSentences(repeat, msg)) {
             say(`Sure thing, I said ${response}`);
         } else {
@@ -180,11 +189,18 @@ const App = () => {
 
     return (
         <div id="main-container">
-            <Modal
+            <TextModal
                 data={data}
                 count={count}
                 response={response}
-                open={modalOpen}
+                open={textModal}
+            />
+
+            <CreateRecipeModal
+                data={data}
+                count={count}
+                response={response}
+                open={createRecipeModal}
             />
             {count === -1 ? (
                 <>

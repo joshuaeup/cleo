@@ -166,18 +166,16 @@
 
 /* Modal Styles */
 
-.overlay {
+.overlay-from-left,
+.overlay-from-right {
     position: absolute;
-    top: -100vh;
-    left: -100vw;
     height: 100vh;
     width: 100vw;
     z-index: 4;
     background-color: #1a405ee0;
     color: white;
     transition: all 0.8s;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
+
     display: grid;
     justify-items: center;
     align-items: center;
@@ -185,7 +183,22 @@
     grid-gap: 5rem;
     text-align: center;
 }
-.overlay .home-grid-container {
+
+.overlay-from-left {
+    top: -100vh;
+    left: -100vw;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.overlay-from-right {
+    top: -100vh;
+    right: -100vw;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+
+.home-grid-container {
     height: 80vh;
     width: 80vw;
     display: grid;
@@ -200,27 +213,89 @@
     border-radius: 10%;
 }
 
-.overlay .home-grid-container .home-grid-container__title {
+.home-grid-container .home-grid-container__body {
     transition: all 0.5s;
     transition-delay: 0.8s;
     /* grid-column: 1/7; */
 }
-.overlay .home-grid-container .home-grid-container__title h1 {
+.home-grid-container .home-grid-container__body h1 {
     color: white;
     font-size: 3.5rem;
     margin-bottom: 0;
 }
 
-.overlay .home-grid-container .home-grid-container__title p {
+.home-grid-container .home-grid-container__body p {
     color: white;
     font-size: 2rem;
 }
 
-.open {
+.home-grid-container .home-grid-container__body button {
+    background-color: transparent;
+    color: white;
+    font-size: 1.5rem;
+    border: dashed #63717c 2px;
+    padding: 0.8rem 1rem;
+    width: 30vw;
+    text-transform: uppercase;
+    margin-top: 2rem;
+    transition: 0.5s ease;
+}
+
+.home-grid-container .home-grid-container__body > button:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.overlay-from-right > button {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    padding: 0.8rem 1rem;
+    color: white;
+    background-color: #1cd65198;
+
+    border-radius: 5px;
+    border: none;
+}
+
+.overlay-from-right > button:hover {
+    cursor: pointer;
+    background-color: #1cd650;
+}
+
+.create-recipe__container {
+    display: grid;
+    justify-items: center;
+    align-items: baseline;
+    grid-template-columns: 1fr;
+}
+
+.create-recipe__container__icon {
+    font-size: 10rem;
+}
+
+.create-recipe__container__textarea {
+    width: 30vw;
+    height: 5vh;
+    font-size: 1rem;
+    margin-top: 1rem;
+    padding: 5px;
+}
+
+.open-from-left {
     top: 0;
     left: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+.open-from-right {
+    top: 0;
+    right: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .hide {

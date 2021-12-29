@@ -57,28 +57,33 @@ const recipeRequest = [
 
 const aborts = ["abort cleo", "abort clio"];
 
-const openModal = [
-    "show modal",
+const openTextModal = [
     "show text",
     "show transcript",
     "text show",
     "text open",
-    "open modal",
     "open text",
     "open transcript",
 ];
 
-const closeModal = [
-    "hide modal",
+const closeTextModal = [
     "hide text",
     "hide transcript",
     "text hide",
     "text close",
-    "close modal",
     "close text",
     "close transcript",
     "dismiss",
 ];
+
+const openCreateRecipeModal = [
+    "create a new recipe",
+    "create a recipe",
+    "add a new recipe",
+    "add a recipe",
+];
+
+const closeCreateRecipeModal = ["dismiss"];
 
 const repeat = ["repeat", "say that again"];
 
@@ -93,7 +98,9 @@ export {
     date,
     gratitude,
     cookingRequest,
-    openModal,
-    closeModal,
+    openTextModal,
+    closeTextModal,
+    openCreateRecipeModal,
+    closeCreateRecipeModal,
     repeat,
 };
